@@ -28,21 +28,19 @@ class RoomAdmin(admin.ModelAdmin):
         (
             "Basic Info",
             {
-                "fields": ("name", "description", "country", "address", "price"),
+                "fields": (
+                    "name",
+                    "description",
+                    "country",
+                    "city",
+                    "address",
+                    "price",
+                    "room_type",
+                ),
             },
         ),
-        (
-            "Times",
-            {
-                "fields": ("check_in", "check_out", "instant_book"),
-            },
-        ),
-        (
-            "Spaces",
-            {
-                "fields": ("guests", "beds", "bedrooms", "baths"),
-            },
-        ),
+        ("Times", {"fields": ("check_in", "check_out", "instant_book")}),
+        ("Spaces", {"fields": ("guests", "beds", "bedrooms", "baths")}),
         (
             "More About the Space",
             {
@@ -50,12 +48,7 @@ class RoomAdmin(admin.ModelAdmin):
                 "fields": ("amenities", "facilities", "house_rules"),
             },
         ),
-        (
-            "Last Details",
-            {
-                "fields": ("host",),
-            },
-        ),
+        ("Last Details", {"fields": ("host",)}),
     )
 
     list_display = (
