@@ -1,5 +1,7 @@
 django==2.2.5
 django-countries
+django-seed
 flake8
 black
 pillow
+psycopg2-binary
