@@ -6,21 +6,23 @@ Home
 
 {% block content %}
 
-  {% for room in rooms %}
+  {% for room in rooms_page.object_list %}
     <li>{{room.name}} / ${{room.price}}</li>
   {% endfor %}
 
   <h4>
-    {% if page is not 1 %}
-      <a href="?page={{page|add:-1}}">Prev</a>
+    {% if rooms_page.has_previous %}
+      <a href="?page={{rooms_page.previous_page_number}}">Prev</a>
     {% endif %}
-    Page {{page}} of {{page_count}}
-    {% if not page == page_count %}
-      <a href="?page={{page|add:1}}">Next</a>
+
+    Page {{rooms_page.number}} of {{rooms_page.paginator.num_pages}}
+
+    {% if rooms_page.has_next %}
+      <a href="?page={{rooms_page.next_page_number}}">Next</a>
     {% endif %}
   </h4>
 
-  {% for page in page_range %}
+  {% for page in rooms_page.paginator.page_range %}
     <a href="?page={{page}}">{{page}}</a>
   {% endfor %}
 
