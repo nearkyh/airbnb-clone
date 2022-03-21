@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django.views.generic import ListView
+from django.views.generic import DetailView
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -23,10 +24,8 @@ class HomeView(ListView):
         return context
 
 
-def room_detail(request, pk):
-    try:
-        room = models.Room.objects.get(pk=pk)
-        return render(request, "rooms/detail.html", {"room": room})
-    except models.Room.DoesNotExist:
-        # return redirect(reverse("core:home"))
-        raise Http404()
+class RoomDetail(DetailView):
+    """RoomDetail"""
+
+    model = models.Room
+    pk_url_kwarg = "rename_pk"
