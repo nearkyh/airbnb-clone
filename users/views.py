@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from . import forms
+from . import models
 
 
 class LoginView(FormView):
@@ -36,7 +37,7 @@ class SignUpView(FormView):
     initial = {
         "first_name": "Yonghan",
         "last_name": "Kim",
-        "email": "nearkyh2@gmail.com",
+        "email": "nearkyh@gmail.com",
     }
 
     def form_valid(self, form):
@@ -47,4 +48,18 @@ class SignUpView(FormView):
         user = authenticate(self.request, username=email, password=password)
         if user is not None:
             login(self.request, user)
+        user.verify_email()
         return super().form_valid(form)
+
+
+def complete_verification(request, key):
+    try:
+        user = models.User.objects.get(email_secret=key)
+        user.email_verified = True
+        user.email_secret = ""
+        user.save()
+        # TODO: Add success message
+    except models.User.DoesNotExist:
+        # TODO: Add error message
+        pass
+    return redirect(reverse("core:home"))
