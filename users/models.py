@@ -12,36 +12,41 @@ class User(AbstractUser):
 
     GENDER_MALE = "M"
     GENDER_FEMALE = "W"
-    GENDERS = (
-        (GENDER_MALE, "Male"),
-        (GENDER_FEMALE, "Female"),
-    )
+    GENDERS_CHOICES = ((GENDER_MALE, "Male"), (GENDER_FEMALE, "Female"))
+
     LANGUAGE_ENGLISH = "eng"
     LANGUAGE_KOREAN = "kor"
-    LANGUAGES = (
-        (LANGUAGE_ENGLISH, "English"),
-        (LANGUAGE_KOREAN, "Korean"),
-    )
+    LANGUAGES_CHOICES = ((LANGUAGE_ENGLISH, "English"), (LANGUAGE_KOREAN, "Korean"))
+
     CURRENCY_USD = "usd"
     CURRENCY_KRW = "krw"
-    CURRENCIES = (
-        (CURRENCY_USD, "USD"),
-        (CURRENCY_KRW, "KRW"),
+    CURRENCIES_CHOICES = ((CURRENCY_USD, "USD"), (CURRENCY_KRW, "KRW"))
+
+    LOGIN_EMAIL = "email"
+    LOGIN_GITHUB = "github"
+    LOGIN_KAKAO = "kakao"
+    LOGIN_CHOICES = (
+        (LOGIN_EMAIL, "Email"),
+        (LOGIN_GITHUB, "Github"),
+        (LOGIN_KAKAO, "Kakao"),
     )
 
     avatar = models.ImageField(upload_to="avatars", blank=True)
-    gender = models.CharField(choices=GENDERS, max_length=10, blank=True)
+    gender = models.CharField(choices=GENDERS_CHOICES, max_length=10, blank=True)
     bio = models.TextField(default="", blank=True)
     birthdate = models.DateField(blank=True, null=True)
     language = models.CharField(
-        choices=LANGUAGES, max_length=10, blank=True, default=LANGUAGE_KOREAN
+        choices=LANGUAGES_CHOICES, max_length=10, blank=True, default=LANGUAGE_KOREAN
     )
     currency = models.CharField(
-        choices=CURRENCIES, max_length=3, blank=True, default=CURRENCY_KRW
+        choices=CURRENCIES_CHOICES, max_length=3, blank=True, default=CURRENCY_KRW
     )
     superhost = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
     email_secret = models.CharField(max_length=20, default="", blank=True)
+    login_method = models.CharField(
+        max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
+    )
 
     def verify_email(self):
         if self.email_verified is False:
